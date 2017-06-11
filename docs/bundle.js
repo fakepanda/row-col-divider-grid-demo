@@ -9729,9 +9729,9 @@ var Column = function (_Component) {
   _createClass(Column, [{
     key: 'onMouseDown',
     value: function onMouseDown(event) {
-      console.log('mouse down');
-      console.log(event.screenX);
-      this.props.onCalcSnapWidths(this.props.idx, event.screenX);
+      // console.log('mouse down');
+      // console.log(event.screenX);
+      // this.props.onCalcSnapWidths(this.props.idx, event.screenX);
     }
   }, {
     key: 'onMouseUp',
@@ -9744,13 +9744,11 @@ var Column = function (_Component) {
     value: function onDragStart(event) {
       console.log('drag start');
       console.log(event.screenX);
-      //this.startX = event.screenX;
+      this.props.onCalcSnapWidths(this.props.idx, event.screenX);
     }
   }, {
     key: 'onDrag',
     value: function onDrag(event) {
-      //console.log('drag');
-      //console.log(this.startX);
       // when the user lets go of the mouse, drag event is fired with screenX of 0, ignore this case
       if (event.screenX !== 0) {
         this.props.onDrag(this.props.idx, event.screenX);
@@ -9875,8 +9873,6 @@ var Row = function (_Component) {
   }, {
     key: 'onCalcSnapWidths',
     value: function onCalcSnapWidths(colIdx, startingX) {
-      console.log('snapwidths');
-      console.log(JSON.stringify(this.props.row, null, 2));
       // givin the divider's idx, figure out the width of the snap grid
       var clientRect = this.refs.columnContainer.getBoundingClientRect();
       var width = clientRect.width;
@@ -9896,7 +9892,6 @@ var Row = function (_Component) {
   }, {
     key: 'onDragDivider',
     value: function onDragDivider(idx, clientX) {
-      //console.log('drag ', clientX - this.startingX);
       var moveWidth = clientX - this.startingX;
 
       var row = this.props.row;

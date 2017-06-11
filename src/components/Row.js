@@ -23,8 +23,6 @@ class Row extends Component {
   }
 
   onCalcSnapWidths(colIdx, startingX) {
-    console.log('snapwidths');
-    console.log(JSON.stringify(this.props.row, null, 2));
     // givin the divider's idx, figure out the width of the snap grid
     const clientRect = this.refs.columnContainer.getBoundingClientRect();
     const width = clientRect.width;
@@ -39,7 +37,6 @@ class Row extends Component {
   }
 
   onDragDivider(idx, clientX) {
-    //console.log('drag ', clientX - this.startingX);
     const moveWidth = clientX - this.startingX;
 
     const row = this.props.row;

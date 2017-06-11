@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 
 class Column extends Component {
   onMouseDown(event) {
-    console.log('mouse down');
-    console.log(event.screenX);
-    this.props.onCalcSnapWidths(this.props.idx, event.screenX);
+    // console.log('mouse down');
+    // console.log(event.screenX);
+    // this.props.onCalcSnapWidths(this.props.idx, event.screenX);
   }
   onMouseUp(event) {
     // mouse up fires another drag event...with poor results let's kill it
@@ -13,11 +13,9 @@ class Column extends Component {
   onDragStart(event) {
     console.log('drag start');
     console.log(event.screenX);
-    //this.startX = event.screenX;
+    this.props.onCalcSnapWidths(this.props.idx, event.screenX);
   }
   onDrag(event) {
-    //console.log('drag');
-    //console.log(this.startX);
     // when the user lets go of the mouse, drag event is fired with screenX of 0, ignore this case
     if (event.screenX !== 0) {
       this.props.onDrag(this.props.idx, event.screenX);
