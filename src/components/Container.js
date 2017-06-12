@@ -78,7 +78,7 @@ class Container extends Component {
   updateRow(idx, row) {
     const rows = this.state.rows;
     rows[idx] = row;
-    console.log(JSON.stringify(row, null, 2));
+    //console.log(JSON.stringify(row, null, 2));
     this.setState({ rows });
   }
 
