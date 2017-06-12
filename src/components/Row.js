@@ -18,7 +18,21 @@ class Row extends Component {
             />
           );
         }
+
         //figure out grid start/end
+        /**
+         * see css-grid specs
+         * grid-column: <start-column> / <end-column>
+         * 
+         * 0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16  17  18  19  20
+         * --------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
+         * |       |               |                       |                       |       |
+         * | 1 / 2 |     3 / 6     |         7 / 12        |         13 / 18       | 19/20 |
+         * |       |               |                       |                       |       |
+         * --------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
+         * 
+         * In our grid defined by the Row's columnContainer, the even numbers are used for Dividers.
+         */
         let start = obj.end + 1;
         let end = obj.end + column.width * 2;
 
@@ -35,12 +49,15 @@ class Row extends Component {
   }
 
   onCalcSnapWidths(colIdx, startingX) {
-    // givin the divider's idx, figure out the width of the snap grid
+    // givin the divider's idx, figure out the width of the snap grid in pixels
     const clientRect = this.refs.columnContainer.getBoundingClientRect();
     const width = clientRect.width;
+    // the snapWidth is the distance we need to drag before resizing, this width should
+    // approximately match the distance between 2 gutters in our css grid
     const snapWidth = width / 12;
     const row = this.props.row;
 
+    // tying to instance instead of setting the state and rerendering
     this.dragDividerIdx = colIdx;
     this.snapWidth = snapWidth;
     this.startingX = startingX;
@@ -50,8 +67,6 @@ class Row extends Component {
 
   onDragDivider(idx, clientX) {
     const moveWidth = clientX - this.startingX;
-
-    const row = this.props.row;
 
     // if moved to the left, moveWidth is negative
     if (this.canResizeLeft && moveWidth < 0 && moveWidth < -this.snapWidth) {
@@ -80,6 +95,7 @@ class Row extends Component {
     let resized = false;
     const leftCols = this.props.row
       .slice(0, idx + 1)
+      // we want to reduce width from the column directly to the left of the divider
       .reverse()
       .map(col => {
         if (!resized && col.width > 1) {
@@ -99,6 +115,7 @@ class Row extends Component {
     let resized = false;
     const rightCols = this.props.row.slice(idx + 1).map(col => {
       if (!resized && col.width > 1) {
+        // remove 1 width from column
         col.width -= 1;
         resized = true;
       }
@@ -157,7 +174,6 @@ const styles = {
     flexGrow: 1,
     display: 'grid',
     gridTemplateColumns: 'repeat(11, 1fr 10px) 1fr',
-    //alignItems: 'stretch',
     margin: 10
   }
 };

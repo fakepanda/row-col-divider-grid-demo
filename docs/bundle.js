@@ -9667,6 +9667,20 @@ var Column = function (_Component) {
       var classNames = ['col'];
       classNames.push(this.props.id ? 'row-' + this.props.id : '');
       var style = styles.colStyle;
+
+      /**
+       * see css-grid specs
+       * grid-column: <start-column> / <end-column>
+       * 
+       * 0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16  17  18  19  20
+       * --------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
+       * |       |               |                       |                       |       |
+       * | 1 / 2 |     3 / 6     |         7 / 12        |         13 / 18       | 19/20 |
+       * |       |               |                       |                       |       |
+       * --------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
+       * 
+       * In our grid defined by the Row's columnContainer, the even numbers are the gutters.
+       */
       style.gridColumn = this.props.start + '/' + this.props.end;
       return _react2.default.createElement(
         'div',
@@ -9866,7 +9880,21 @@ var Row = function (_Component) {
             onDragEnd: _this2.onDragDividerEnd.bind(_this2)
           }));
         }
+
         //figure out grid start/end
+        /**
+         * see css-grid specs
+         * grid-column: <start-column> / <end-column>
+         * 
+         * 0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16  17  18  19  20
+         * --------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
+         * |       |               |                       |                       |       |
+         * | 1 / 2 |     3 / 6     |         7 / 12        |         13 / 18       | 19/20 |
+         * |       |               |                       |                       |       |
+         * --------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
+         * 
+         * In our grid defined by the Row's columnContainer, the even numbers are the gutters.
+         */
         var start = obj.end + 1;
         var end = obj.end + column.width * 2;
 
@@ -9882,12 +9910,15 @@ var Row = function (_Component) {
   }, {
     key: 'onCalcSnapWidths',
     value: function onCalcSnapWidths(colIdx, startingX) {
-      // givin the divider's idx, figure out the width of the snap grid
+      // givin the divider's idx, figure out the width of the snap grid in pixels
       var clientRect = this.refs.columnContainer.getBoundingClientRect();
       var width = clientRect.width;
+      // the snapWidth is the distance we need to drag before resizing, this width should
+      // approximately match the distance between 2 gutters in our css grid
       var snapWidth = width / 12;
       var row = this.props.row;
 
+      // tying to instance instead of setting the state and rerendering
       this.dragDividerIdx = colIdx;
       this.snapWidth = snapWidth;
       this.startingX = startingX;
@@ -9902,8 +9933,6 @@ var Row = function (_Component) {
     key: 'onDragDivider',
     value: function onDragDivider(idx, clientX) {
       var moveWidth = clientX - this.startingX;
-
-      var row = this.props.row;
 
       // if moved to the left, moveWidth is negative
       if (this.canResizeLeft && moveWidth < 0 && moveWidth < -this.snapWidth) {
@@ -9928,7 +9957,9 @@ var Row = function (_Component) {
     key: 'snapLeft',
     value: function snapLeft(idx) {
       var resized = false;
-      var leftCols = this.props.row.slice(0, idx + 1).reverse().map(function (col) {
+      var leftCols = this.props.row.slice(0, idx + 1
+      // we want to reduce width from the column directly to the left of the divider
+      ).reverse().map(function (col) {
         if (!resized && col.width > 1) {
           col.width -= 1;
           resized = true;
@@ -9946,6 +9977,7 @@ var Row = function (_Component) {
       var resized = false;
       var rightCols = this.props.row.slice(idx + 1).map(function (col) {
         if (!resized && col.width > 1) {
+          // remove 1 width from column
           col.width -= 1;
           resized = true;
         }
@@ -10026,7 +10058,6 @@ var styles = {
     flexGrow: 1,
     display: 'grid',
     gridTemplateColumns: 'repeat(11, 1fr 10px) 1fr',
-    //alignItems: 'stretch',
     margin: 10
   }
 };
