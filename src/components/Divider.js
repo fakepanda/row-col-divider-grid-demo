@@ -54,7 +54,8 @@ const styles = {
     margin: 0,
     alignSelf: 'center',
     backgroundColor: 'F9CDAD',
-    padding: 3
+    padding: 3,
+    cursor: 'ew-resize'
   }
 };
 

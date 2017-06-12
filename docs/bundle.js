@@ -9679,7 +9679,7 @@ var Column = function (_Component) {
        * |       |               |                       |                       |       |
        * --------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
        * 
-       * In our grid defined by the Row's columnContainer, the even numbers are the gutters.
+       * In our grid defined by the Row's columnContainer, the even numbers are used for the Dividers.
        */
       style.gridColumn = this.props.start + '/' + this.props.end;
       return _react2.default.createElement(
@@ -9813,7 +9813,8 @@ var styles = {
     margin: 0,
     alignSelf: 'center',
     backgroundColor: 'F9CDAD',
-    padding: 3
+    padding: 3,
+    cursor: 'ew-resize'
   }
 };
 
@@ -9893,7 +9894,7 @@ var Row = function (_Component) {
          * |       |               |                       |                       |       |
          * --------+-------+-------+-------+-------+-------+-------+-------+-------+-------+
          * 
-         * In our grid defined by the Row's columnContainer, the even numbers are the gutters.
+         * In our grid defined by the Row's columnContainer, the even numbers are used for Dividers.
          */
         var start = obj.end + 1;
         var end = obj.end + column.width * 2;
