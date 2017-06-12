@@ -9667,7 +9667,7 @@ var Column = function (_Component) {
       var classNames = ['col'];
       classNames.push(this.props.id ? 'row-' + this.props.id : '');
       var style = styles.colStyle;
-      style.flexGrow = this.props.width;
+      style.gridColumn = this.props.start + '/' + this.props.end;
       return _react2.default.createElement(
         'div',
         { className: classNames.join(' '), style: style },
@@ -9799,7 +9799,7 @@ var styles = {
     margin: 0,
     alignSelf: 'center',
     backgroundColor: 'F9CDAD',
-    padding: 5
+    padding: 3
   }
 };
 
@@ -9856,9 +9856,9 @@ var Row = function (_Component) {
     value: function renderColumns() {
       var _this2 = this;
 
-      return this.props.row.reduce(function (arr, column, idx, row) {
+      return this.props.row.reduce(function (obj, column, idx, row) {
         if (idx) {
-          arr.push(_react2.default.createElement(_Divider2.default, {
+          obj.arr.push(_react2.default.createElement(_Divider2.default, {
             key: 'div' + (idx - 1),
             idx: idx - 1,
             onCalcSnapWidths: _this2.onCalcSnapWidths.bind(_this2),
@@ -9866,9 +9866,18 @@ var Row = function (_Component) {
             onDragEnd: _this2.onDragDividerEnd.bind(_this2)
           }));
         }
-        arr.push(_react2.default.createElement(_Column2.default, _extends({ key: column.id }, column)));
-        return arr;
-      }, []);
+        //figure out grid start/end
+        var start = obj.end + 1;
+        var end = obj.end + column.width * 2;
+
+        obj.end = end;
+        obj.arr.push(_react2.default.createElement(_Column2.default, _extends({ key: column.id }, column, { start: start, end: end })));
+        return obj;
+      },
+      // seed
+      { arr: [], end: 0
+        // returning the arr
+      }).arr;
     }
   }, {
     key: 'onCalcSnapWidths',
@@ -10015,8 +10024,9 @@ var styles = {
   },
   colContainerStyle: {
     flexGrow: 1,
-    display: 'flex',
-    alignItems: 'stretch',
+    display: 'grid',
+    gridTemplateColumns: 'repeat(11, 1fr 10px) 1fr',
+    //alignItems: 'stretch',
     margin: 10
   }
 };

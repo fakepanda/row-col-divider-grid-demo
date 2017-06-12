@@ -5,21 +5,33 @@ import Divider from './Divider';
 
 class Row extends Component {
   renderColumns() {
-    return this.props.row.reduce((arr, column, idx, row) => {
-      if (idx) {
-        arr.push(
-          <Divider
-            key={'div' + (idx - 1)}
-            idx={idx - 1}
-            onCalcSnapWidths={this.onCalcSnapWidths.bind(this)}
-            onDrag={this.onDragDivider.bind(this)}
-            onDragEnd={this.onDragDividerEnd.bind(this)}
-          />
+    return this.props.row.reduce(
+      (obj, column, idx, row) => {
+        if (idx) {
+          obj.arr.push(
+            <Divider
+              key={'div' + (idx - 1)}
+              idx={idx - 1}
+              onCalcSnapWidths={this.onCalcSnapWidths.bind(this)}
+              onDrag={this.onDragDivider.bind(this)}
+              onDragEnd={this.onDragDividerEnd.bind(this)}
+            />
+          );
+        }
+        //figure out grid start/end
+        let start = obj.end + 1;
+        let end = obj.end + column.width * 2;
+
+        obj.end = end;
+        obj.arr.push(
+          <Column key={column.id} {...column} start={start} end={end} />
         );
-      }
-      arr.push(<Column key={column.id} {...column} />);
-      return arr;
-    }, []);
+        return obj;
+      },
+      // seed
+      { arr: [], end: 0 }
+      // returning the arr
+    ).arr;
   }
 
   onCalcSnapWidths(colIdx, startingX) {
@@ -143,8 +155,9 @@ const styles = {
   },
   colContainerStyle: {
     flexGrow: 1,
-    display: 'flex',
-    alignItems: 'stretch',
+    display: 'grid',
+    gridTemplateColumns: 'repeat(11, 1fr 10px) 1fr',
+    //alignItems: 'stretch',
     margin: 10
   }
 };

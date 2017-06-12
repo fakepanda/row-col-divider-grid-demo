@@ -5,7 +5,7 @@ class Column extends Component {
     const classNames = ['col'];
     classNames.push(this.props.id ? `row-${this.props.id}` : '');
     const style = styles.colStyle;
-    style.flexGrow = this.props.width;
+    style.gridColumn = this.props.start + '/' + this.props.end;
     return (
       <div className={classNames.join(' ')} style={style}>
         {'Col' + this.props.id}

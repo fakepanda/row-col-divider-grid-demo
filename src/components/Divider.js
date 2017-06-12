@@ -54,7 +54,7 @@ const styles = {
     margin: 0,
     alignSelf: 'center',
     backgroundColor: 'F9CDAD',
-    padding: 5
+    padding: 3
   }
 };
 
