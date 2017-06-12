@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 
 import Row from './Row';
+import sampleRows from '../sampleRows';
 
 class Container extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      rows: [[]]
+      rows: sampleRows
     };
   }
 

@@ -9469,6 +9469,10 @@ var _Row = __webpack_require__(84);
 
 var _Row2 = _interopRequireDefault(_Row);
 
+var _sampleRows = __webpack_require__(185);
+
+var _sampleRows2 = _interopRequireDefault(_sampleRows);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -9488,7 +9492,7 @@ var Container = function (_Component) {
     var _this = _possibleConstructorReturn(this, (Container.__proto__ || Object.getPrototypeOf(Container)).call(this, props));
 
     _this.state = {
-      rows: [[]]
+      rows: _sampleRows2.default
     };
     return _this;
   }
@@ -9577,7 +9581,7 @@ var Container = function (_Component) {
     value: function updateRow(idx, row) {
       var rows = this.state.rows;
       rows[idx] = row;
-      console.log(JSON.stringify(row, null, 2));
+      //console.log(JSON.stringify(row, null, 2));
       this.setState({ rows: rows });
     }
   }, {
@@ -39471,6 +39475,79 @@ module.exports = function(module) {
 	return module;
 };
 
+
+/***/ }),
+/* 185 */
+/***/ (function(module, exports) {
+
+module.exports = [
+	[
+		{
+			"id": 0,
+			"width": 2
+		},
+		{
+			"id": 1,
+			"width": 3
+		},
+		{
+			"id": 2,
+			"width": 2
+		},
+		{
+			"id": 3,
+			"width": 3
+		},
+		{
+			"id": 4,
+			"width": 2
+		}
+	],
+	[
+		{
+			"id": 0,
+			"width": 2
+		},
+		{
+			"id": 1,
+			"width": 4
+		},
+		{
+			"id": 2,
+			"width": 2
+		},
+		{
+			"id": 3,
+			"width": 4
+		}
+	],
+	[
+		{
+			"id": 0,
+			"width": 1
+		},
+		{
+			"id": 1,
+			"width": 1
+		},
+		{
+			"id": 2,
+			"width": 2
+		},
+		{
+			"id": 3,
+			"width": 2
+		},
+		{
+			"id": 4,
+			"width": 3
+		},
+		{
+			"id": 5,
+			"width": 3
+		}
+	]
+];
 
 /***/ })
 /******/ ]);
